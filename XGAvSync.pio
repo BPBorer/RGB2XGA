@@ -1,0 +1,38 @@
+;
+; Bruce Borer 
+; XGA V Sync driver 
+
+; Program name 
+.program XGAvSync
+
+        pull    block          ;i.e. 601 HS  [13 ins.]  
+.wrap_target
+        set     x, 4
+VSync:
+        wait    1 irq 1 [5]    ; VSync = 6 HS  
+        set     pins 0         ; V Sync active low
+        jmp     x-- VSync
+        set     pins 1         ; end of VS
+        set     x, 23          ; Back Porch = 23 HS
+Back:
+        wait    1 irq 1 [5]    ; Back = 29
+        jmp     x-- Back
+        irq     2              ; start of active lines
+        mov     x, osr
+Front:
+        wait    1 irq 1 [5]    ; Disp+Front = 601
+        jmp     x-- Front
+.wrap
+
+ % c-sdk {
+static inline void XGAvSync_program_init(PIO xga_pio, uint smvSync, uint offsetv, uint pin) {
+
+    pio_gpio_init(xga_pio, pin);
+    pio_sm_set_consecutive_pindirs(xga_pio, smvSync, pin, 1, true);
+    pio_sm_config chv = XGAvSync_program_get_default_config(offsetv);
+    sm_config_set_set_pins(&chv, pin, 1);
+    pio_sm_init(xga_pio, smvSync, offsetv, &chv);
+
+    pio_sm_set_enabled(xga_pio, smvSync, false);
+}
+%}

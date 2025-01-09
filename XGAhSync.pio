@@ -1,0 +1,37 @@
+;
+; Bruce Borer 
+; XGA H Sync driver    [12 ins.]
+
+; Program name     
+.program XGAhSync
+
+        pull    block	       ; Pull from FIFO to OSR (only once) 440
+.wrap_target
+        set     x, 16
+HSync:
+        set     pins 0 [30]    ; H Sync active low  
+        jmp     x-- HSync      ; H Sync 4x128 = 512
+        set     pins 1 [15]    ; endof HS  
+        set     x, 21
+Back:
+        set     pins 1 [13]    ; Back = 4x88 = 352
+        jmp     x-- Back
+        irq     1              ; start of active pixels
+        mov     x, osr
+Active:
+        set     pins 1  [6]       ; Active+FP (400+40) =  440
+        jmp     x-- Active
+.wrap
+
+ % c-sdk {
+static inline void XGAhSync_program_init(PIO xga_pio, uint smhSync, uint offseth, uint pin) {
+
+    pio_gpio_init(xga_pio, pin);
+    pio_sm_set_consecutive_pindirs(xga_pio, smhSync, pin, 1, true);
+    pio_sm_config chh = XGAhSync_program_get_default_config(offseth);
+    sm_config_set_set_pins(&chh, pin, 1);
+    pio_sm_init(xga_pio, smhSync, offseth, &chh);
+
+    pio_sm_set_enabled(xga_pio, smhSync, false);
+}
+%}

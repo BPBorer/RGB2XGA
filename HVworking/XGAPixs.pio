@@ -1,0 +1,41 @@
+;
+; Bruce Borer 
+; XGA pixel driver PIO0.1
+
+; Program name
+.program XGAPixs
+	pull    block          ; i.e. 4004  (once)      [7 ins.]
+        mov     y, osr         ; Pixels per line i.e. 800/2+4= 404
+.wrap_target
+        wait    1 irq 2        ; wait for active lines
+        mov     x, y           ; pixels per line i.e. 800/2+4= 404
+        wait    1 irq 1        ; start of active pixels   
+Pixels:
+        out     pins, 8 [6]
+        jmp     x-- Pixels
+.wrap                          ;            [32 ins. total]       
+
+ % c-sdk {
+static inline void XGAPixs_program_init(PIO xga_pio, uint smXGAPixs, uint offsetp, uint pin) {
+
+
+    // Set this pin's GPIO function (connect PIO to the pad)
+    pio_gpio_init(xga_pio, pin);
+    pio_gpio_init(xga_pio, (pin + 1));
+    pio_gpio_init(xga_pio, (pin + 2));
+    pio_gpio_init(xga_pio, (pin + 3));
+    pio_gpio_init(xga_pio, (pin + 4));
+    pio_gpio_init(xga_pio, (pin + 5));
+    pio_gpio_init(xga_pio, (pin + 6));
+    pio_gpio_init(xga_pio, (pin + 7));
+
+    pio_sm_set_consecutive_pindirs(xga_pio, smXGAPixs, pin, 8, true);
+    pio_sm_config cp = XGAPixs_program_get_default_config(offsetp);
+    sm_config_set_out_pins(&cp, pin, 8);
+    sm_config_set_out_shift(&cp, true, true, 32);
+    sm_config_set_fifo_join(&cp, PIO_FIFO_JOIN_TX);
+    pio_sm_init(xga_pio, smXGAPixs, offsetp, &cp);
+
+    pio_sm_set_enabled(xga_pio, smXGAPixs, true);
+}
+%}

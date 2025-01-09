@@ -1,0 +1,69 @@
+;RGB (256 x 192) 160 MHz  is PIO clk
+
+; Pixel Timing
+
+; Program name    
+.program RGB_PIn
+
+        pull   block           ; i.e. 1786   [20 ins]
+.wrap_target
+        wait   1 gpio 27
+        wait   0 gpio 27
+        set    y, 2
+VSBP:
+        set    x,31            ; V Sync back porch 2 x 31 - 1 = 64
+VSBPb: 
+          wait   1 gpio 26
+          wait   0 gpio 26
+          jmp    x-- VSBPb
+        jmp    y-- VSBP
+        mov    x, osr           ; H Sync back porch 22.349x80.5-2 = 1786
+HSBP: 
+        jmp    x--  HSBP
+        set    y, 4
+PixelsA:
+          set    x, 13  ; Pixels (13 x 5) x 4 = 256 + 4 for blanking = 260
+PixelsB:
+          in     pins 8    [21]
+          in     pins 8    [22]
+          in     pins 8    [21]
+          in     pins 8    [22]
+          in     pins 8    [20]
+          jmp    PixelsB
+        jmp    PixelsA 
+.wrap                          ; wait for start of next line
+
+
+ % c-sdk {
+static inline void RGB_PIn_program_init(PIO pio, uint sm, uint offset, uint pin) {
+
+    // creates state machine configuration object c,
+    // sets to default configurations.
+    pio_sm_config c = RGB_PIn_program_get_default_config(offset);
+
+    // Map the state machine's SET pin group to six pins, the `pin`
+    // parameter to this function is the lowest one. 
+    sm_config_set_set_pins(&c, pin, 8);
+ 
+    // Set this pin's GPIO function (connect PIO to the pad)
+    pio_gpio_init(pio, pin + 0);
+    pio_gpio_init(pio, pin + 1);
+    pio_gpio_init(pio, pin + 2);
+    pio_gpio_init(pio, pin + 3);
+    pio_gpio_init(pio, pin + 4);
+    pio_gpio_init(pio, pin + 5);
+    pio_gpio_init(pio, pin + 6);
+    pio_gpio_init(pio, pin + 7);
+
+    // Set the pin direction to output at the PIO (8 pins)
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 8, true);
+
+    sm_config_set_out_shift(&c, false, true, 32);
+
+    // Load our configuration, and jump to the start of the program
+    pio_sm_init(pio, sm, offset, &c);
+
+    // Set the state machine running 
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
