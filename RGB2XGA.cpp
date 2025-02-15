@@ -4,8 +4,8 @@
 #include "hardware/pio.h"
 #include "hardware/pll.h"
 #include "hardware/clocks.h"
-#include "hardware/structs/pll.h"
-#include "hardware/structs/clocks.h"
+//#include "hardware/structs/pll.h"
+//#include "hardware/structs/clocks.h"
 
 #include "XGAvSync.pio.h"
 #include "RGB_PIn.pio.h"
@@ -72,13 +72,13 @@ int main()
     uint offsetv = pio_add_program(xga_pio, &XGAvSync_program);
     printf("XGAvSync pin %d with offset %d\n", 11, offsetv);
     XGAvSync_program_init(xga_pio, smvSync, offsetv, 11);
-    pio_sm_set_enabled(xga_pio, smvSync, true);
+    //pio_sm_set_enabled(xga_pio, smvSync, true);
     xga_pio->txf[smvSync] = (601);
 
     uint offsetp = pio_add_program(xga_pio, &XGAPixs_program);
     printf("XGAPixs pin %d with offset %d\n", 2, offsetp);
     XGAPixs_program_init(xga_pio, smXGAPixs, offsetp, 2);
-    pio_sm_set_enabled(xga_pio, smXGAPixs, true);
+    //pio_sm_set_enabled(xga_pio, smXGAPixs, true);
     xga_pio->txf[smXGAPixs] = (404);
     // xga_pio->txf[smXGAPixs] = (0xcca97613);
     // xga_pio->txf[smXGAPixs] = (0xcca97613);
@@ -114,7 +114,7 @@ int main()
         &vga_data_array[0],         // The initial write address (pixel color array)
         &rgb_pio->rxf[rgb_sm],      // read address (RGB PIO TX FIFO)
         rgb_Rx_Cnt,                 // Number of transfers; in this case each is 4 bytes.
-        false                        // start immediately.
+        false                       // start immediately.
     );
 
     // Channel One (reconfigures the first RGB channel)
@@ -130,7 +130,7 @@ int main()
         &dma_hw->ch[rgb_chan_0].write_addr, // Write address (channel 0 read address)
         &vga_data_array[0],                 // Read address (POINTER TO AN ADDRESS)
         1,                                  // Number of transfers, in this case each is 4 byte
-        false                                // start immediately.
+        false                               // start immediately.
     );
 
     // Channel Two (Sends color data to PIO XGA machine)
@@ -147,7 +147,7 @@ int main()
         &xga_pio->txf[smXGAPixs],   // The write address (RGB PIO TX FIFO)
         &vga_data_array[0],         // The initial read address (pixel color array)
         xga_Tx_Cnt,                 // Number of transfers; in this case each is 4 bytes.
-        false                        // start immediately.
+        false                       // start immediately.
     );
 
     // Channel Three (reconfigures the first XGA channel)
@@ -163,7 +163,7 @@ int main()
         &dma_hw->ch[xga_chan_0].read_addr,  // Write address (channel 0 read address)
         &vga_data_array[0],                 // read address (POINTER TO AN ADDRESS)
         1,                                  // Number of transfers, in this case each is 4 byte
-        false                                // start immediately.
+        false                               // start immediately.
     );
 
     // Start the three pio machine IN SYNC
@@ -176,7 +176,7 @@ int main()
     // will be continously DMA's to the PIO machines that are driving the screen.
     // To change the contents of the screen, we need only change the contents
     // of that array.
-    dma_start_channel_mask((1u << rgb_chan_0 | 1u << xga_chan_0)) ;
+    dma_start_channel_mask((1u << rgb_chan_0 | 1u << xga_chan_0 | 1u << rgb_chan_1 | 1u << xga_chan_1)) ;
 
     x =  0;
         sleep_ms(LED_DELAY_MS*2500);
@@ -186,7 +186,14 @@ int main()
     printf("rgb_chan_1 = %d\n",rgb_chan_1);
     printf("xga_chan_0 = %d\n",xga_chan_0);
     printf("xga_chan_1 = %d\n",xga_chan_1);
-   
+
+        printf("CH0_TRANS_COUNT = %x\n", dma_hw->multi_channel_trigger);
+        printf("CH1_TRANS_COUNT = %x\n", dma_channel_hw_addr(xga_chan_0)->transfer_count);
+        //printf("CH2_TRANS_COUNT = %x\n", DMA_CH2_TRANS_COUNT_BITS);
+        //printf("CH3_TRANS_COUNT = %x\n", DMA_CH3_TRANS_COUNT_BITS);
+
+        sleep_ms(LED_DELAY_MS*2500);
+
     while (true) {
         printf("Hello, world! %d\n",x);
         x = x + 1;
@@ -195,11 +202,15 @@ int main()
     //  if (pis_sm2_tx_fifo_not_full) xga_pio->txf[smXGAPixs] = (0xcca97613);
     //  if (pis_sm2_tx_fifo_not_full) xga_pio->txf[smXGAPixs] = (0xcca97613);
         gpio_put(PICO_DEFAULT_LED_PIN, 1);
-        sleep_ms(LED_DELAY_MS*250);
+        sleep_ms(LED_DELAY_MS*500);
     //  pico_set_led(false);
     //  if (pis_sm2_tx_fifo_not_full) xga_pio->txf[smXGAPixs] = (0x33a97613);
     //  if (pis_sm2_tx_fifo_not_full) xga_pio->txf[smXGAPixs] = (0x33a97613);
         gpio_put(PICO_DEFAULT_LED_PIN, 0);
-        sleep_ms(LED_DELAY_MS*250);
+        sleep_ms(LED_DELAY_MS*500);
+        printf("CH0_TRANS_COUNT = %x\n", dma_hw->multi_channel_trigger);
+        printf("CH1_TRANS_COUNT = %x\n", dma_channel_hw_addr(xga_chan_0)->transfer_count);
+       // printf("CH2_TRANS_COUNT = %x\n", DMA_CH2_TRANS_COUNT_BITS);
+        //printf("CH3_TRANS_COUNT = %x\n", DMA_CH3_TRANS_COUNT_BITS);
     }
 }
