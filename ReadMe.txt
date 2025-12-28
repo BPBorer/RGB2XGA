@@ -1,7 +1,5 @@
 RGB (256x192) input to SVGA (800x600) output
 
-    There is a problem with the current environment for this Raspberry Pi Pico project.  The DMA does not seem to be working.  I have not tested the RGB inputs yet but I expect similar issues with it as well.
-The SM for H Sync and V Sync outputs are working as seen on a scope and the colour output seem to work when the data is fed by code in the main loop but is not fed by the DMA functions.  My code is very similar to other projects found in GitHub and I cannot find what is different. I suspect there is an environment setting that is not what need as set by the defaults or it could be as simple as a typo.  The project does compile with no warnings or errors. The UF2 file loads and runs with the Printf statements seen as functioning.
 
 This project was built with "Raspberry Pi Pico SDK 1.5.1" and "Pico Visual Studio Code".
 

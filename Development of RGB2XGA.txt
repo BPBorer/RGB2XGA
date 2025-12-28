@@ -1,0 +1,45 @@
+RGB2XGA - Test1
+
+    This was built with "Raspberry Pi Pico SDK v1.5.1" using "Pico - Visual Studio Code".
+Starting with the Blink example to build the CMakeLists.txt and the .ninja files.
+From there I wrote:
+XGAhSync.pio - generates the horzontal sync. timing
+XGAvSync.pio - generates the vertical sync. timing
+XGAPixs.pio  - to output the XGA pixels and timing
+and added
+Test1.cpp    - to create the video buffer (400 pixels per line and 300 lines)
+I also had to edit CMakeLists.txt to include the new files.
+
+After generating a stable 800x600 XGA static display (each buffer pixel sent twice)
+and initially generated 2 frames per display. Later I sent each line twice. 
+This produced each pixel double wide and double high on a 800x600 display from a 
+400x300 video buffer.
+
+The next step was to receive the pixel images from the CoCo 3 and fill the buffer with
+192 lines of 400 pixels. The 400 pixel wide line supports all three video screens;
+Width 32, 40 and 80.
+RGBline.pio - to produce the timing for a line
+RGBFP.pio   - to produce the timing for a frame
+RGBpixs.pio - to fill the buffer with 400 pixels
+
+When I got this working I found the analog comparitors I was using was not fast enough
+which required to switch to faster comparitors and a new PCB.
+
+This is about the time I modified the code to send each line twice.  I wanted to use 
+interrupts but it was faster to use the main loop to get it working.  I hope to get 
+it to use interrups after I test the new PCB using the new comparitors.
+
+Of the 600 lines being disolayed the CoCo 3 only filled 386 lines (192x2).  This leaves 
+214 lines of static lines or when the double lines use interrupts that leaves the main 
+loop to display what ever I want.  All this with just using one of the two cores available.
+
+The CoCo 3 only generates 2x2x2 RGB colours (64) but only 16 at a time.  The RGB2XGA uses 
+one byte per pixel which uses 3x3x2 to generate 324 colours. I will probably demonstrate 
+the extra colous in the 214 lines the CoCo 3 does not fill.
+
+I have been told that the CoCO 3 can generate 225 lines.  My next test is to test 225 lines 
+and if it can generate 225 I will support it in my design.  225 lines of RGB will use 450 
+lines of the 600 lines of XGA. it should support 192, 200 and 225 lines from the CoCo 3's 
+RGB.
+
+Bruce P. Borer

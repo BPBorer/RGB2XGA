@@ -15,7 +15,7 @@ if(WIN32)
 else()
     set(USERHOME $ENV{HOME})
 endif()
-set(sdkVersion 1.5.1)
+set(sdkVersion 2.0.0)
 set(toolchainVersion 13_2_Rel1)
 set(picotoolVersion 2.0.0)
 set(picoVscode ${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
@@ -28,46 +28,48 @@ set(PICO_BOARD pico CACHE STRING "Board type")
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-project(RGB2XGA C CXX ASM)
+project(Test1 C CXX ASM)
 
 # Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(RGB2XGA RGB2XGA.cpp )
+add_executable(Test1 Test1.cpp )
 
-pico_set_program_name(RGB2XGA "RGB2XGA")
-pico_set_program_version(RGB2XGA "0.1")
+pico_set_program_name(Test1 "Test1")
+pico_set_program_version(Test1 "0.1")
 
 # Generate PIO header
-#pico_generate_pio_header(RGB2XGA ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
-pico_generate_pio_header(RGB2XGA ${CMAKE_CURRENT_LIST_DIR}/XGAvSync.pio)
-pico_generate_pio_header(RGB2XGA ${CMAKE_CURRENT_LIST_DIR}/XGAhSync.pio)
-pico_generate_pio_header(RGB2XGA ${CMAKE_CURRENT_LIST_DIR}/XGAPixs.pio)
-pico_generate_pio_header(RGB2XGA ${CMAKE_CURRENT_LIST_DIR}/RGB_PIn.pio)  
+pico_generate_pio_header(Test1 ${CMAKE_CURRENT_LIST_DIR}/XGAPixs.pio)
+#pico_generate_pio_header(Test1 ${CMAKE_CURRENT_LIST_DIR}/blink.pio)
+pico_generate_pio_header(Test1 ${CMAKE_CURRENT_LIST_DIR}/XGAhSync.pio)
+pico_generate_pio_header(Test1 ${CMAKE_CURRENT_LIST_DIR}/XGAvSync.pio)
+pico_generate_pio_header(Test1 ${CMAKE_CURRENT_LIST_DIR}/RGBFP.pio)
+pico_generate_pio_header(Test1 ${CMAKE_CURRENT_LIST_DIR}/RGBline.pio)
+pico_generate_pio_header(Test1 ${CMAKE_CURRENT_LIST_DIR}/RGBPixs.pio)
 
 # Modify the below lines to enable/disable output over UART/USB
-pico_enable_stdio_uart(RGB2XGA 0)
-pico_enable_stdio_usb(RGB2XGA 1)
+pico_enable_stdio_uart(Test1 0)
+pico_enable_stdio_usb(Test1 1)
 
 # Add the standard library to the build
-target_link_libraries(RGB2XGA
+target_link_libraries(Test1
         pico_stdlib)
 
 # Add the standard include files to the build
-target_include_directories(RGB2XGA PRIVATE
+target_include_directories(Test1 PRIVATE
   ${CMAKE_CURRENT_LIST_DIR}
   ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
 # Add any user requested libraries
-target_link_libraries(RGB2XGA 
+target_link_libraries(Test1 
+        hardware_pio
         hardware_pll
         hardware_clocks
         hardware_dma
-        hardware_pio
         )
 
-pico_add_extra_outputs(RGB2XGA)
+pico_add_extra_outputs(Test1)
 

@@ -1,0 +1,43 @@
+;
+; Bruce Borer 
+; RGB pixel Capture PIO1.1
+
+; Program name
+.program RGBPixs
+.wrap_target
+        wait    1 irq 1      ; wait to capture pixels
+        mov     x, osr   [20]
+InActH:
+        in      pins, 8  [22]
+        in      pins, 8  [22]
+        in      pins, 8  [22]
+        in      pins, 8  [22]
+        jmp     x-- InActH
+
+.wrap
+
+ % c-sdk {
+static inline void RGBPixs_program_init(PIO RGB_pio, uint smRGBPixs, uint offsetp, uint pin) {
+
+
+    // Set this pin's GPIO function (connect PIO to the pad)
+    pio_gpio_init(RGB_pio, pin);
+    pio_gpio_init(RGB_pio, (pin + 1));
+    pio_gpio_init(RGB_pio, (pin + 2));
+    pio_gpio_init(RGB_pio, (pin + 3));
+    pio_gpio_init(RGB_pio, (pin + 4));
+    pio_gpio_init(RGB_pio, (pin + 5));
+    pio_gpio_init(RGB_pio, (pin + 6));
+    pio_gpio_init(RGB_pio, (pin + 7));
+
+    pio_sm_set_consecutive_pindirs(RGB_pio, smRGBPixs, pin, 8, false);
+    pio_sm_config chB = RGBPixs_program_get_default_config(offsetp);
+    sm_config_set_in_pins(&chB, 12);
+    sm_config_set_in_pin_count(&chB, 8);
+    sm_config_set_in_shift(&chB, true, true, 32);
+    //sm_config_set_fifo_join(&chB, PIO_FIFO_JOIN_RX);
+    pio_sm_init(RGB_pio, smRGBPixs, offsetp, &chB);
+
+    pio_sm_set_enabled(RGB_pio, smRGBPixs, true);
+}
+%}

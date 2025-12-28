@@ -1,0 +1,40 @@
+;
+; Bruce Borer 
+; RGB pixel Capture PIO1.1
+
+; Program name
+.program RGBFP
+
+.wrap_target
+        wait    1 gpio, 21    ; wait for V sync
+        wait    0 gpio, 21 
+Line:
+        set     y, 1
+OutVBP:
+        set     x, 19
+InVBP:
+        wait    1 gpio, 20    ; wait for H sync
+        wait    0 gpio, 20
+        jmp     x-- InVBP     ;delay for V back porch
+        jmp     y-- OutVBP
+
+        irq     4             ;show 1st active line
+
+.wrap
+
+ % c-sdk {
+static inline void RGBFP_program_init(PIO RGB_pio, uint smRGBFP, uint offsetv, uint pin) {
+
+    // Set this pin's GPIO function (connect PIO to the pad)
+    pio_gpio_init(RGB_pio, pin);
+
+//    pio_gpio_init(RGB_pio, pin);
+//    gpio_set_input_enabled(RGB_pio, smRGBFP, pin, 1, true);
+//    gpio_set_input_enabled(pin, true);
+    pio_sm_config chR = RGBFP_program_get_default_config(offsetv);
+;    sm_config_set_set_pins(&chR, pin, 1);
+    pio_sm_init(RGB_pio, smRGBFP, offsetv, &chR);
+
+    pio_sm_set_enabled(RGB_pio, smRGBFP, true);
+}
+%}

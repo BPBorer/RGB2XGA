@@ -1,0 +1,44 @@
+;
+; Bruce Borer 
+; RGB pixel Capture PIO1.1
+
+; Program name
+.program RGBline
+;	pull    block         ; number of active lines once
+;        mov     isr osr      ; once
+;        pull    block        ; horz. Back Porch once
+.wrap_target
+        mov     y isr 
+;        mov     x osr         ; not required ****
+
+        wait    1 irq 4       ; wait for first active line
+NxLine:
+        mov     x, osr
+InHBP:
+        jmp     x-- InHBP     ; wait for horz. Back Porch
+
+        irq     1             ; capture active pixels
+        
+        wait    1 gpio, 20
+        wait    0 gpio, 20    ; wait for next H sync
+
+        jmp     y-- NxLine
+        
+.wrap
+
+ % c-sdk {
+static inline void RGBline_program_init(PIO RGB_pio, uint smRGBline, uint offsetv, uint pin) {
+
+    // Set this pin's GPIO function (connect PIO to the pad)
+    pio_gpio_init(RGB_pio, pin);
+
+//    pio_gpio_init(RGB_pio, pin);
+//    pio_sm_set_consecutive_pindirs(RGB_pio, smRGBline, pin, 1, true);
+//    gpio_set_input_enabled(pin, true);
+    pio_sm_config chG = RGBline_program_get_default_config(offsetv);
+;    sm_config_set_set_pins(&chG, pin, 1);
+    pio_sm_init(RGB_pio, smRGBline, offsetv, &chG);
+
+    pio_sm_set_enabled(RGB_pio, smRGBline, true);
+}
+%}
