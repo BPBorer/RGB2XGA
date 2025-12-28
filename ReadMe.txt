@@ -1,4 +1,5 @@
 RGB (256x192) input to SVGA (800x600) output
+added the PCB files to the folder PCB/RGB2XGA
 
 
 This project was built with "Raspberry Pi Pico SDK 1.5.1" and "Pico Visual Studio Code".

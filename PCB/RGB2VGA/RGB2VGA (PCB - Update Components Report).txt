@@ -1,0 +1,98 @@
+Update Components Report
+------------------------
+
+Report Written:     Saturday, November 29, 2025
+Design Path:        C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb
+Design Title:       
+Created:            2024-10-08 11:50:27 AM
+Last Saved:         2025-11-29 3:05:45 PM
+Editing Time:       2733 min
+Units:              thou (precision 0)
+
+
+Library Files:
+==============
+
+C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\DownloadedLibrary\SnapEDA Downloads.cml
+C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\User\User.cml
+C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\Default\DesignSpark.cml
+C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\Default\ltspice.cml
+C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\Default\XSpice.cml
+
+Selected items to be updated:
+=============================
+
+
+Components:
+===========
+
+    (None) 
+
+Symbols:
+========
+
+    (None) 
+
+Additional items to be updated:
+===============================
+
+
+Components:
+===========
+
+    (None) 
+
+Symbols:
+========
+
+    (None) 
+
+Selected items not to be updated  (Same version as library)
+===========================================================
+
+
+Components:
+===========
+
+CAP0805 (SMD0805)
+CONN DIL 10 (CONN DIL 10)
+DSub15Pin (DSUB15PIN)
+MHsm (MHsm)
+MIC94053 (SO706)
+NAND2X4 (SOIC14)
+NOR2X4 (SOIC14)
+PICO H (DIL40)
+SMD0805 (USER)
+Zener (SOD523)
+
+Symbols:
+========
+
+CONN DIL 10 C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\Default\DesignSpark.psl
+DSub15Pin   C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\Default\DesignSpark.psl
+MHsm        C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\User\User.psl
+PICO_H      C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\Default\DesignSpark.psl
+SMD0805     C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\User\User.psl
+SO14        C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\Default\DesignSpark.psl
+SO706       C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\User\User.psl
+SOD523      C:\Users\Public\Documents\DesignSpark PCB 11.0\Library\User\User.psl
+
+
+
+Update Components Summary
+=========================
+
+Updating all components.
+Update component values
+Update component value positions
+(Do not remove pad style exceptions on updated components)
+	Selected for update:			  10  Components
+						   8  Symbols
+	Selected items to be updated:		   0  Components
+						   0  Symbols
+	Additional items to be updated:		   0  Components
+						   0  Symbols
+	Selected items NOT to be updated:	  10  Components
+	  (Same version as library)		   8  Symbols
+
+End Of Report.

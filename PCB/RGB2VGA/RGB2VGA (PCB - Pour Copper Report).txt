@@ -1,0 +1,13 @@
+Pour Copper Report
+------------------
+
+Report Written:     Monday, October 21, 2024
+Design Path:        C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb
+Design Title:       
+Created:            2024-10-08 12:50:27 PM
+Last Saved:         2024-10-21 12:46:27 AM
+Editing Time:       2493 min
+Units:              thou (precision 0)
+
+
+End Of Report.

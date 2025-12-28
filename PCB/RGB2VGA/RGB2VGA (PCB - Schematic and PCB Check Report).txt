@@ -1,0 +1,24 @@
+Schematic and PCB Check Report
+------------------------------
+
+Report Written:     Friday, December 05, 2025
+Design Path:        C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb
+Design Title:       
+Created:            2024-10-08 11:50:27 AM
+Last Saved:         2025-12-05 7:49:56 PM
+Editing Time:       4112 min
+Units:              thou (precision 0)
+
+
+Checking integrity of Schematic "C:\CoCo\PCB\RGB2VGA\RGB2VGA.sch" with PCB "C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb"
+============================================================================================================
+
+The PCB and Schematic designs do not match.
+To bring them into line, you will need to make the following changes to the PCB design:
+
+
+Change component reference "U7" to use package "PICO H" instead of package "DIL40".
+
+
+
+End Of Report.

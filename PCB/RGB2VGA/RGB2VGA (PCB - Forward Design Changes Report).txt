@@ -1,0 +1,17 @@
+Forward Design Changes Report
+-----------------------------
+
+Report Written:     Friday, December 05, 2025
+Design Path:        C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb
+Design Title:       
+Created:            2024-10-08 11:50:27 AM
+Last Saved:         2025-12-05 7:28:41 PM
+Editing Time:       4112 min
+Units:              thou (precision 0)
+
+Ignored different package for component reference "U7", schematic uses package "PICO H", and PCB uses package "DIL40".
+
+Net N0326 renamed to N0536
+
+
+End Of Report.

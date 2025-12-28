@@ -1,0 +1,89 @@
+Design Rule Check Report
+------------------------
+
+Report Written:     Friday, December 05, 2025
+Design Path:        C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb
+Design Title:       
+Created:            2024-10-08 11:50:27 AM
+Last Saved:         2025-12-05 7:49:56 PM
+Editing Time:       4113 min
+Units:              thou (precision 0)
+
+
+Results
+=======
+
+Track to Drill Hole error (T-D) at (9278 10618) on layer "Bottom Copper".
+    Track too wide to backoff from drill.
+Track to Drill Hole error (T-D) at (9185 9859) on layer "Bottom Copper".
+    Track too wide to backoff from drill.
+Track to Drill Hole error (T-D) at (9328 8955) on layer "3.3V Plane".
+    Track too wide to backoff from drill.
+Track to Drill Hole error (T-D) at (9177 9108) on layer "3.3V Plane".
+    Track too wide to backoff from drill.
+Track to Drill Hole error (T-D) at (9333 8460) on layer "Bottom Copper".
+    Track too wide to backoff from drill.
+Component to Board error (Cm-B) at (9770 11900) on layer "[Top]".
+    P2.
+Component to Board error (Cm-B) at (9099 10060) on layer "[Top]".
+    P3.
+Dangling Track from (9262,9178) to (9262,9176) on layer Top Copper
+Dangling Track from (10535,8960) to (10535,8965) on layer Top Copper
+Dangling Track from (9759,8215) to (9759,8214) on layer Top Copper
+Dangling Track from (9444,9270) to (9444,9258) on layer Top Copper
+Dangling Track from (9444,9275) to (9444,9272) on layer Top Copper
+Dangling Track from (9346,9280) to (9346,9268) on layer Top Copper
+Dangling Track from (9373,9570) to (9315,9570) on layer Bottom Copper
+Dangling Track from (9688,8343) to (9696,8343) on layer Top Copper
+Text will appear mirrored
+
+Number of errors found : 16
+
+
+Settings
+========
+
+
+Spacings
+
+=========
+
+Tracks        Yes
+Pads and Vias Yes
+Shapes        No
+Text          No
+Board         Yes
+Drills        Yes
+Components    Yes
+
+
+Manufacturing
+
+==============
+
+Drill Breakout                  Yes
+Drill Backoff                   Yes
+Silkscreen Overlap              No
+Copper Text In Board            Yes
+Min Track Width                 Yes
+Min Annular Ring                Yes
+Min Paste Size                  Yes
+Vias In Pads                    Yes
+Unplated Vias                   Yes
+Unplated Pads With Inner Tracks Yes
+
+
+Nets
+
+=====
+
+Net Completion               Yes
+Dangling Tracks              Yes
+Net Track Length Differences No
+Nets without Components      No
+Nets on No Connect pins      No
+Nets on No Connect pins      No
+
+
+
+End Of Report.

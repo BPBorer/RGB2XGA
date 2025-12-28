@@ -1,0 +1,16 @@
+Back Annotation Results Report
+------------------------------
+
+Report Written:     Thursday, December 04, 2025
+Design Path:        C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb
+Design Title:       
+Created:            2024-10-08 11:50:27 AM
+Last Saved:         2025-12-04 9:58:09 PM
+Editing Time:       3867 min
+Units:              thou (precision 0)
+
+Back Annotate renames from PCB "C:\CoCo\PCB\RGB2VGA\RGB2VGA.pcb" to Schematic "C:\CoCo\PCB\RGB2VGA\RGB2VGA.sch".
+
+
+
+End Of Report.
